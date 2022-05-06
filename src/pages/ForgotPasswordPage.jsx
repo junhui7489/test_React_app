@@ -24,6 +24,7 @@ class ForgotPasswordPage extends React.Component{
         return(
             <div className="page-format">
               <img src={logo} className="logo" alt="Logo" />
+              <h2>Forgot Password?</h2>
               <form className="form" onSubmit={this.handleSubmit}>
                 <div className="input-group">
                   <label htmlFor="email">Email</label>
