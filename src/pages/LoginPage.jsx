@@ -19,7 +19,7 @@ class LoginPage extends React.Component{
         } else if (!e.target.password.value) {
           alert("Password is required");
         } else if (
-          e.target.email.value === "me@example.com" &&
+          e.target.email.value === "test@test.com" &&
           e.target.password.value === "123456"
         ) {
           alert("Successfully logged in");
