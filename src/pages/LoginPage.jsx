@@ -1,14 +1,13 @@
 import React, { Component } from "react";
 import "../App.css";
 import logo from "../assets/logo-social.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-class LoginPage extends React.Component{
-    constructor(props){
-        super(props);
-    }
+function LoginPage(){
 
-    handleSubmit = e => {
+    let navigate = useNavigate();
+
+    function handleSubmit(e) {
         e.preventDefault();
         console.log(e.target.email.value);
     
@@ -25,16 +24,16 @@ class LoginPage extends React.Component{
           alert("Successfully logged in");
           e.target.email.value = "";
           e.target.password.value = "";
+          navigate('/home');
         } else {
           alert("Wrong email or password combination");
         }
       };
     
-      render() {
         return (
           <div className="page-format">
             <img src={logo} className="logo" alt="Logo" />
-            <form className="form" onSubmit={this.handleSubmit}>
+            <form className="form" onSubmit={handleSubmit}>
               <div className="input-group">
                 <label htmlFor="email">Email</label>
                 <input type="email" name="email" placeholder="email" />
@@ -57,7 +56,6 @@ class LoginPage extends React.Component{
             </Link>
           </div>
         );
-      }
 }
 
 export default LoginPage;
