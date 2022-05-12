@@ -11,7 +11,7 @@ export default function ReactButton(props) {
       selected={props.value}
       onChange={props.handleChange}
     >
-    {props.value ? "Add" : "Added"}
+    {!props.value ? "Add" : "Added"}
     </ToggleButton>
   );
 }
