@@ -163,3 +163,17 @@ button.tertiary {
 button.tertiary:hover {
   background: #258a33;
 }
+
+.appbar {
+  min-width:100%;
+  padding-top: 0px;
+  position:fixed;
+  top:0%;
+  left:0%;
+  display: flex;
+}
+
+.appbar > .logo {
+  width: 10%;
+}
+
