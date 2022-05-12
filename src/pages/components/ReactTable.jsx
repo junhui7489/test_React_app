@@ -8,72 +8,101 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination';
+import ReactButton from './ReactButton';
 import { Box } from '@mui/material';
 import PropTypes from 'prop-types';
 
 class ReactTable extends React.Component{
   constructor(props){
       super(props);
-      this.state = {newPage: 0, page: 0, rowsPerPage: 10};
+      this.state = {newPage: 0, page: 0, rowsPerPage: 10, buttonToggle1: false, 
+        buttonToggle2: false, buttonToggle3: false, buttonToggle4: false, buttonToggle5: false };
   }
 
   handlePageChangeHandler = (event, newPage) => {
-    console.log(newPage)
+    //console.log(newPage)
     this.setState({page: newPage})
   };
 
   handleChangeRowsPerPageHandler = (event) => {
-    console.log(event.target.value);
+    //console.log(event.target.value);
     this.setState({rowsPerPage: parseInt(event.target.value, 10)});
   };
 
+  handleAddingHandler = (event) => {
+    const x = event.target.id;
+    console.log(x);
+    switch (x) {
+        case '1':
+          return this.setState({buttonToggle1: !this.state.buttonToggle1});
+        case '2':
+          return this.setState({buttonToggle2: !this.state.buttonToggle2});
+        case '3':
+          return this.setState({buttonToggle3: !this.state.buttonToggle3});
+        case '4':
+          return this.setState({buttonToggle4: !this.state.buttonToggle4});
+        case '5':
+          return this.setState({buttonToggle5: !this.statebuttonToggle5});
+        default:
+          return false;
+    }       
+    }
+
   render() {
     return (
-      <Box sx={{ width: '100%' }}>
-        <Paper sx={{ width: '100%', mb: 2 }}>
-          <TableContainer>
-          <Table sx={{ minWidth: 800 }} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Id</TableCell>
-                <TableCell align="left">Album&nbsp;Id</TableCell>
-                <TableCell align="left">Title</TableCell>
-                <TableCell align="left">Url</TableCell>
-                <TableCell align="left">Thumbnail Url</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {
-              this.props.data.slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage).map((row) => (
-                  <TableRow
-                  key={row.id}
-                  // sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row">
-                    {row.id}
-                  </TableCell>
-                  <TableCell align="left">{row.albumId}</TableCell>
-                  <TableCell align="left">{row.title}</TableCell>
-                  <TableCell align="left">{row.url}</TableCell>
-                  <TableCell align="left">{row.thumbnailUrl}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+      <React.Fragment>
         <Box sx={{ width: '100%' }}>
-        <TablePagination
-          component="Box"
-          rowsPerPageOptions={[5,10]}
-          count={this.props.data.length}
-          onPageChange={this.handlePageChangeHandler}
-          rowsPerPage={this.state.rowsPerPage}
-          onRowsPerPageChange={this.handleChangeRowsPerPageHandler}
-          page={this.state.page}
-        />
-        </Box>
-      </Paper>
-    </Box>
+          <Paper sx={{ width: '100%', mb: 2 }}>
+            <TableContainer>
+            <Table sx={{ minWidth: 800 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Id</TableCell>
+                  <TableCell align="left">Album&nbsp;Id</TableCell>
+                  <TableCell align="left">Title</TableCell>
+                  <TableCell align="left">Url</TableCell>
+                  <TableCell align="left">Thumbnail Url</TableCell>
+                  <TableCell align="left">Action</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {
+                this.props.data.slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage)
+                .filter((data) => data.id <= 5)
+                .map((row) => (
+                    <TableRow
+                    key={row.id}
+                    // sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  >
+                    <TableCell component="th" scope="row">
+                      {row.id}
+                    </TableCell>
+                    <TableCell align="left">{row.albumId}</TableCell>
+                    <TableCell align="left">{row.title}</TableCell>
+                    <TableCell align="left">{row.url}</TableCell>
+                    <TableCell align="left">{row.thumbnailUrl}</TableCell>
+                    <TableCell align="center">
+                      <ReactButton id={row.id} value={this.state['buttonToggle' + row.id]} handleChange={this.handleAddingHandler} />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <Box sx={{ width: '100%' }}>
+          <TablePagination
+            component="Box"
+            rowsPerPageOptions={[5,10]}
+            count={this.props.data.length}
+            onPageChange={this.handlePageChangeHandler}
+            rowsPerPage={this.state.rowsPerPage}
+            onRowsPerPageChange={this.handleChangeRowsPerPageHandler}
+            page={this.state.page}
+          />
+          </Box>
+        </Paper>
+      </Box>
+    </React.Fragment>
     );
   }
 }
