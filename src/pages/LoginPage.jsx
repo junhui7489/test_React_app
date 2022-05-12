@@ -8,15 +8,19 @@ function LoginPage(){
     let navigate = useNavigate();
 
     function handleSubmit(e) {
+      try {
         e.preventDefault();
         console.log(e.target.email.value);
     
         if (!e.target.email.value) {
           alert("Email is required");
+          throw new Error("Email is required");
         } else if (!e.target.email.value) {
           alert("Valid email is required");
+          throw new Error("Valid email is required");
         } else if (!e.target.password.value) {
           alert("Password is required");
+          throw new Error("Password is required!");
         } else if (
           e.target.email.value === "test@test.com" &&
           e.target.password.value === "123456"
@@ -27,7 +31,11 @@ function LoginPage(){
           navigate('/home');
         } else {
           alert("Wrong email or password combination");
+          throw new Error("Wrong email or password combination");
         }
+      } catch (error) {
+        console.log(error);
+      }
       };
     
         return (

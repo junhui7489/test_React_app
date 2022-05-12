@@ -9,23 +9,33 @@ class RegisterPage extends React.Component{
   }
 
   handleSubmit = e => {
-    e.preventDefault();
-    console.log(e.target.email.value);
+    try {
+      e.preventDefault();
+      console.log(e.target.email.value);
 
-    if (!e.target.email.value) {
-      alert("Email is required");
-    } else if (!e.target.password.value){
-      alert("Password is required")
-    } else if (!e.target.confirm_password.value){
-      alert("Confirmation password is required")
-    } else if (e.target.password.value != e.target.confirm_password.value){
-      alert("Passwords are not the same.")
-    } else {
-        alert("Details are sent to your email!");
-        e.target.email.value = "";
-        e.target.password.value = "";
-        e.target.confirm_password.value = "";
-    }
+      if (!e.target.email.value) {
+        alert("Email is required");
+        throw new Error("Email is required");
+      } else if (!e.target.password.value){
+        alert("Password is required");
+        throw new Error("Password is required");
+      } else if (!e.target.confirm_password.value){
+        alert("Confirmation password is required");
+        throw new Error("Confirmation password is required");
+      } else if (e.target.password.value != e.target.confirm_password.value){
+        alert("Passwords are not the same.");
+        throw new Error("Passwords are not the same.");
+      } else if (e.target.password.value.length < 6){
+        throw new Error("Password not long enough!");
+      } else {
+          alert("Details are sent to your email!");
+          e.target.email.value = "";
+          e.target.password.value = "";
+          e.target.confirm_password.value = "";
+        }
+      } catch (error) {
+        console.log(error);
+      }
   };
 
   render(){
