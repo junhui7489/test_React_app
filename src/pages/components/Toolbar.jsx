@@ -48,9 +48,11 @@ class ButtonAppBar extends React.PureComponent{ //pureComponent only renders if 
                     Home
                   </Button>
                 </Link>
-                <Button variant="h6" color="inherit" component="div" sx={{ flexGrow: 0.5 }}>
-                  My List
+                <Link to="/my_list" style={{ textDecoration: 'none' }}>
+                <Button variant="h6" color="inherit" component="div" sx={{ flexGrow: 0.5, color: 'white' }}>
+                  CRUD
                 </Button>
+                </Link>
                 </Container>
                 <Link to="/" style={{ textDecoration: 'none' }}>
                   <Button variant="h6"  component="div" sx={{ flexGrow: 1, color: "white"}}>
