@@ -5,16 +5,16 @@ import HomePage from './pages/HomePage';
 import ErrorBoundary from './pages/ErrorBoundary';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import RegisterPage from './pages/RegisterPage';
+import MyListPage from './pages/MyListPage';
 
 function App() {
   return (
     <div className="App">
-      <ErrorBoundary>
         <LoginPage/>
-        <HomePage/>
-        <ForgotPasswordPage/>
-        <RegisterPage/>
-      </ErrorBoundary>
+          <HomePage/>
+          <ForgotPasswordPage/>
+          <RegisterPage/>
+          <MyListPage/>
     </div>
   );
 }
