@@ -49,6 +49,28 @@ class HomePage extends React.Component{
     componentDidUpdate(){
       console.log("Updated!");  
     }
+
+    // componentDidMount(){
+    //   console.log("i am in bus");
+    //   }
+    
+    //   componentDidUpdate(){
+    //     console.log("going on bus to shop")
+    //     if(this.state.id==5){
+    //         return "error";   
+    //     }
+    //   }
+    //   static getDerivedStateFromProps(props, state){
+    //     console.log("before shopping",props);
+    //   }
+    //   /*getSnapshotBeforeUpdate(prevProps, prevState) {
+    //     console.log("snapshot",prevProps);
+    //     console.log("snapshot",prevState);
+    //    // where 'value' is a  valid JavaScript value    
+    //  }*/
+    // componentWillUnmount(){
+    //   console.log("shopping is done");
+    // }
   
 
     render() {
@@ -62,6 +84,8 @@ class HomePage extends React.Component{
         </React.Fragment>
       );
     }
+
+    
 }
 
 
