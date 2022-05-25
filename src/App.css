@@ -38,9 +38,9 @@
 }
 
 html {
-  background:pink;
-  min-height: 720px;
-  min-width: 360px;
+  background:pink !important;
+  min-height: 720px !important;
+  min-width: 360px !important;
 }
 
 #root {
@@ -173,7 +173,49 @@ button.tertiary:hover {
   display: flex;
 }
 
+.container > h2 {
+  font-size: 30px;
+  font-weight: bold;
+  color: #313845;
+  font-family: 'Roboto', sans-serif;
+}
+
 .appbar > .logo {
   width: 10%;
 }
+
+.listTable tbody tr td {
+  font-size: 15px;
+  color: blueviolet;
+  font-family: sans-serif;
+}
+
+.listTable{
+  border-collapse: collapse;
+}
+
+.listTable tr{
+margin-bottom: 10px;
+}
+
+.listTable tr:nth-child(even){
+  background-color: #c5dde3;
+}
+
+.listTable thead{
+  background-color:	#8b9bcb
+}
+
+.listTable th {
+  font-size: 15px;
+  color: purple;
+  font-family: sans-serif;
+  font-weight: bolder;
+}
+
+.listTable tbody tr:hover td, .listTable tbody tr:hover th {
+  background-color:lightgray;
+  cursor: pointer;
+}
+
 
