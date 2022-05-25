@@ -1,92 +1,66 @@
-import React, { Component } from "react";
+import React, {useEffect, useContext, useReducer } from "react";
 import "../App.css";
-import logo from "../assets/logo-social.png";
-import { Link } from "react-router-dom";
-import ReactTable from './components/ReactTable';
 import ButtonAppBar from './components/Toolbar';
-import "../App.css";
+import MyListReactTable from "./components/MyListReactTable";
+import { UserContext } from "../GlobalContext";
+import Modal from './components/Modal';
+import { useSelector } from "react-redux"
+import { useDispatch } from "react-redux";
+import { bindActionCreators } from 'redux'
+import { actionCreators } from "../redux/index"
 
-class HomePage extends React.Component{
-    constructor(props){
-        super(props);
-        this.state = {info: []};
-    }
+//  test Usereducer hook function
+// const initialState={
+//   test: 0
+// }
 
-    fetchJson = async() => {
-      const response = await fetch('https://jsonplaceholder.typicode.com/photos');
-      const photos = await response.json();
-      // waits until the request completes...
-      //console.log(photos);
-      return photos;
-    }
-    
-    componentDidMount() {
-      this.fetchJson().then((data)=>{
-        //console.log(data);
-        this.setState({
-          info: data,
-          new_info: []
-        })
-      });
+// function reducer(state, action) {
+//   switch (action.type) {
+//     case 'increment':
+//       console.log(state);
+//       return{test: state.test + 1}
+//     default:
+//       throw new Error();
+//   }
+// }
 
-    }
+export default function HomePage(props) {
+  // const[state, dispatch] = useReducer(reducer, initialState)
 
-    componentWillUnmount() {
-      console.log("Home Page unmounted!");
-      this.setState({info: [], new_info: []});
-    }
+  // const [listDetails, setListDetails] = useContext(UserContext);
 
-    static getDerivedStateFromProps(props, state) {    
-      console.log("Get Derived State", state);
-  
-    }
+  const listDetails = useSelector((state) => state.listReducer);  //select reducer
+  const myListDetails = useSelector((state) => state.myListReducer);
 
-    getSnapshotBeforeUpdate(prevProps, prevState) {
-      console.log("Get Snapshot before Update", prevState.info, this.state.info);
-      //this.setState({new_info: this.state.info})
-    }
+  const dispatch = useDispatch();
 
-    componentDidUpdate(){
-      console.log("Updated!");  
-    }
-
-    // componentDidMount(){
-    //   console.log("i am in bus");
-    //   }
-    
-    //   componentDidUpdate(){
-    //     console.log("going on bus to shop")
-    //     if(this.state.id==5){
-    //         return "error";   
-    //     }
-    //   }
-    //   static getDerivedStateFromProps(props, state){
-    //     console.log("before shopping",props);
-    //   }
-    //   /*getSnapshotBeforeUpdate(prevProps, prevState) {
-    //     console.log("snapshot",prevProps);
-    //     console.log("snapshot",prevState);
-    //    // where 'value' is a  valid JavaScript value    
-    //  }*/
-    // componentWillUnmount(){
-    //   console.log("shopping is done");
-    // }
+  const {updateDetails} = bindActionCreators(actionCreators, dispatch);
   
 
-    render() {
-      return (
-        <React.Fragment>
-          <ButtonAppBar className="appbar" />
-          <div>
-          <h2>Main Menu</h2>
-          <ReactTable data={this.state.info} />
-          </div>
-        </React.Fragment>
-      );
+  useEffect(() => {
+    async function fetchAPI() {
+      const res = await fetch("https://jsonplaceholder.typicode.com/photos");
+      const posts = await res.json();
+      return posts;
     }
+    fetchAPI().then((fetch_data)=>{
+      console.log(fetch_data);
+      updateDetails(fetch_data.splice(0,10));
+    })
+  },[]);
 
-    
+  return (
+    <React.Fragment>
+      <ButtonAppBar className="appbar" />
+      <div className="container">
+      <span style={{float:"right",width: "50px", paddingTop: "30px", paddingRight: "33px", background:'pink'}}><Modal label="Add"/>
+      </span>
+      <h2>List Table</h2>
+      {/* test usereducer function */}
+      {/* {state.test}
+      <button onClick={()=> dispatch({type:"increment"})}>+</button> */}
+      <MyListReactTable data={listDetails} myListData={myListDetails} />
+      </div>
+    </React.Fragment>
+  );
 }
-
-
-export default HomePage;
