@@ -10,6 +10,7 @@ import Paper from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination';
 import ReactButton from './ReactButton';
 import Modal from './Modal';
+import AddListButton from "./AddListButton";
 import { Box } from '@mui/material';
 import PropTypes from 'prop-types';
 
@@ -29,26 +30,11 @@ class MyListReactTable extends React.Component{
     //console.log(event.target.value);
     this.setState({rowsPerPage: parseInt(event.target.value, 10)});
   };
-  
 
-  handleAddingHandler = (event) => {
-    const x = event.target.id;
-    console.log(x);
-    switch (x) {
-        case '1':
-          return this.setState({buttonToggle1: !this.state.buttonToggle1, ownedItems: [...this.state.ownedItems, this.filterIncomingData(x)]});
-        case '2':
-          return this.setState({buttonToggle2: !this.state.buttonToggle2});
-        case '3':
-          return this.setState({buttonToggle3: !this.state.buttonToggle3});
-        case '4':
-          return this.setState({buttonToggle4: !this.state.buttonToggle4});
-        case '5':
-          return this.setState({buttonToggle5: !this.statebuttonToggle5});
-        default:
-          return false;
-    }       
-    }
+  handleDisableButtonCheck = (id) => {
+    const result = this.props.myListData.some((data)=> data.id == id)
+    return result;
+  }
 
   render() {
     return (
@@ -56,7 +42,7 @@ class MyListReactTable extends React.Component{
         <Box sx={{ width: '100%' }}>
           <Paper sx={{ width: '100%', mb: 2 }}>
             <TableContainer>
-            <Table sx={{ minWidth: 800 }} aria-label="simple table">
+            <Table className='listTable' sx={{ minWidth: 800 }} aria-label="simple table">
               <TableHead>
                 <TableRow>
                   <TableCell>Id</TableCell>
@@ -84,6 +70,12 @@ class MyListReactTable extends React.Component{
                     <TableCell align="left">{row.url}</TableCell>
                     <TableCell align="left">{row.thumbnailUrl}</TableCell>
                     <TableCell align="center">
+                      {this.handleDisableButtonCheck(row.id) === true &&
+                      <AddListButton id={row.id} albumId={row.albumId} title={row.title} url={row.url} thumbnail={row.thumbnailUrl} disabled="true" label="Sold"/>
+                      }
+                      {this.handleDisableButtonCheck(row.id) === false &&
+                      <AddListButton id={row.id} albumId={row.albumId} title={row.title} url={row.url} thumbnail={row.thumbnailUrl} disabled="false" label="Buy"/>
+                      }     
                       <Modal id={row.id} albumId={row.albumId} title={row.title} url={row.url} thumbnail={row.thumbnailUrl} label="Edit"/>
                       <Modal id={row.id} albumId={row.albumId} title={row.title} url={row.url} thumbnail={row.thumbnailUrl} label="Delete"/>
                     </TableCell>

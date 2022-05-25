@@ -1,11 +1,11 @@
 import React, {useEffect, useContext, useReducer } from "react";
 import "../App.css";
 import ButtonAppBar from './components/Toolbar';
-import MyListReactTable from "./components/MyListReactTable";
-import { UserContext } from "../GlobalContext";
-import Modal from './components/Modal';
-
-
+import ReactTable from "./components/ReactTable";
+import { useSelector } from "react-redux"
+import { useDispatch } from "react-redux";
+import { bindActionCreators } from 'redux'
+import { actionCreators } from "../redux/index"
 
 //  test Usereducer hook function
 // const initialState={
@@ -25,20 +25,23 @@ import Modal from './components/Modal';
 export default function MyListPage(props) {
   // const[state, dispatch] = useReducer(reducer, initialState)
 
-  const [listDetails, setListDetails] = useContext(UserContext);
+  // const [listDetails, setListDetails] = useContext(UserContext);
 
+  const myListDetails = useSelector((state) => state.myListReducer);
+
+  useEffect(()=>{
+    console.log(myListDetails)
+  },[myListDetails]);
+  
   return (
     <React.Fragment>
-      <ButtonAppBar className="appbar" />
-      <div>
-      <h2>List Table</h2>
+      <ButtonAppBar className="appbar"/>
+      <div className="container">
+      <h2>My List</h2>
       {/* test usereducer function */}
       {/* {state.test}
       <button onClick={()=> dispatch({type:"increment"})}>+</button> */}
-      <div style={{float:"right",width: "50px", paddingRight: "35px", color:'transparent'}}>
-        <span><Modal label="Add"/></span>
-      </div>
-      <MyListReactTable data={listDetails} />
+      <ReactTable data={myListDetails} />
       </div>
     </React.Fragment>
   );
