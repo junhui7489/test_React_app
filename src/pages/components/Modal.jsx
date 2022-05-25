@@ -5,6 +5,11 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { useContext } from 'react';
 import { UserContext } from "../../GlobalContext";
+import { useSelector } from "react-redux"
+import { useDispatch } from "react-redux";
+import { bindActionCreators } from 'redux'
+import { actionCreators } from "../../redux/index"
+import {BsPlusSquareFill} from "react-icons/bs"
 
 const style = {
   position: 'absolute',
@@ -23,8 +28,13 @@ export default function BasicModal(props) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const label = props.label;
-  const [listDetails, setListDetails] = useContext(UserContext)
+  //const [listDetails, setListDetails] = useContext(UserContext) //used for useContext hook
+  const listDetails = useSelector((state) => state.listReducer);  //select reducer
 
+
+  const dispatch = useDispatch();
+
+  const {addDetails, deleteDetails, editDetails, buyAction } = bindActionCreators(actionCreators, dispatch);
 
   const handleSubmit = (e) => {
     console.log(e.target.albumId.value)
@@ -48,16 +58,18 @@ export default function BasicModal(props) {
         if (label == "Add"){
           alert("Successfully added information");
           let new_data = {albumId: parseInt(e.target.albumId.value), id:5001, title:e.target.title.value, url:e.target.url.value, thumbnailUrl:e.target.thumbnailUrl.value};
-          setListDetails([...listDetails, new_data]);
+          // setListDetails([...listDetails, new_data]); //used for useContext hook
+          addDetails(new_data); //used for redux hook
         }
         else{
           alert("Successfully edited information");
-          let objIndex = listDetails.findIndex((obj => obj.id == props.id));
-          listDetails[objIndex].albumId = parseInt(e.target.albumId.value);
-          listDetails[objIndex].title = e.target.title.value
-          listDetails[objIndex].url = e.target.url.value
-          listDetails[objIndex].thumbnailUrl = e.target.thumbnailUrl.value
-          setListDetails([...listDetails]);
+          // let objIndex = listDetails.findIndex((obj => obj.id == props.id));
+          // listDetails[objIndex].albumId = parseInt(e.target.albumId.value);
+          // listDetails[objIndex].title = e.target.title.value
+          // listDetails[objIndex].url = e.target.url.value
+          // listDetails[objIndex].thumbnailUrl = e.target.thumbnailUrl.value
+          // setListDetails([...listDetails]); //used for useContext hook
+          editDetails(props.id,e.target.albumId.value,e.target.title.value,e.target.url.value,e.target.thumbnailUrl.value); //used for redux hook
         }
       }
     } catch (error) {
@@ -71,18 +83,20 @@ export default function BasicModal(props) {
   };
 
   const deleteEvent = (e) => {
-      alert('Succesfully deleted row information!');
+      alert('Successfully deleted row information!');
       let new_Array = listDetails.filter(row => {
       return row.id !== props.id
       })
-      setListDetails([...new_Array]);
+      // setListDetails([...new_Array]); //used for useContext hook
+      deleteDetails(new_Array); //used for redux hook
   }
-
 
   if(label == "Add"){
   return (
     <div>
-      <Button onClick={handleOpen}>{label}</Button>
+      <Button onClick={handleOpen}>{label}&nbsp;
+      <BsPlusSquareFill/>
+      </Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -118,7 +132,7 @@ export default function BasicModal(props) {
   else if (label == "Delete"){
     return (
       <div>
-      <Button onClick={handleOpen}>{label}</Button>
+      <Button style={{ background:'red', color: 'black'}} onClick={handleOpen}>{label}</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -140,7 +154,7 @@ export default function BasicModal(props) {
 
   return(
   <div>
-  <Button onClick={handleOpen}>{label}</Button>
+  <Button style={{ background:'yellow'}} onClick={handleOpen}>{label}</Button>
   <Modal
     open={open}
     onClose={handleClose}
