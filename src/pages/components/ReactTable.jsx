@@ -29,32 +29,13 @@ class ReactTable extends React.Component{
     this.setState({rowsPerPage: parseInt(event.target.value, 10)});
   };
 
-  handleAddingHandler = (event) => {
-    const x = event.target.id;
-    console.log(x);
-    switch (x) {
-        case '1':
-          return this.setState({buttonToggle1: !this.state.buttonToggle1});
-        case '2':
-          return this.setState({buttonToggle2: !this.state.buttonToggle2});
-        case '3':
-          return this.setState({buttonToggle3: !this.state.buttonToggle3});
-        case '4':
-          return this.setState({buttonToggle4: !this.state.buttonToggle4});
-        case '5':
-          return this.setState({buttonToggle5: !this.statebuttonToggle5});
-        default:
-          return false;
-    }       
-    }
-
   render() {
     return (
       <React.Fragment>
         <Box sx={{ width: '100%' }}>
           <Paper sx={{ width: '100%', mb: 2 }}>
             <TableContainer>
-            <Table sx={{ minWidth: 800 }} aria-label="simple table">
+            <Table className='listTable' sx={{ minWidth: 800 }} aria-label="simple table">
               <TableHead>
                 <TableRow>
                   <TableCell>Id</TableCell>
@@ -62,7 +43,6 @@ class ReactTable extends React.Component{
                   <TableCell align="left">Title</TableCell>
                   <TableCell align="left">Url</TableCell>
                   <TableCell align="left">Thumbnail Url</TableCell>
-                  <TableCell align="left">Action</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -81,9 +61,6 @@ class ReactTable extends React.Component{
                     <TableCell align="left">{row.title}</TableCell>
                     <TableCell align="left">{row.url}</TableCell>
                     <TableCell align="left">{row.thumbnailUrl}</TableCell>
-                    <TableCell align="center">
-                      <ReactButton id={row.id} value={this.state['buttonToggle' + row.id]} handleChange={this.handleAddingHandler} />
-                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
